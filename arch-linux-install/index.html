@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html data-html-server-rendered="true" lang="en" data-vue-tag="lang">
+  <head>
+    <title data-vue-tag="true">Arch Linux Install - Mo</title><meta data-vue-tag="true" charset="utf-8"/><meta data-vue-tag="true" name="generator" content="Gridsome v0.5.4"/><meta data-vue-tag="true" data-key="viewport" name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/><meta data-vue-tag="true" data-key="description" name="description" content="Duhh.."/><meta data-vue-tag="true" data-key="format-detection" name="format-detection" content="telephone=no"/><meta data-vue-tag="true" name="description" content="Guide on how to install Arch Linux."/><link data-vue-tag="true" rel="icon" type="image/png" sizes="16x16" href="/assets/static/favicon.ce0531f.9bb7ffa.png"/><link data-vue-tag="true" rel="icon" type="image/png" sizes="32x32" href="/assets/static/favicon.ac8d93a.9bb7ffa.png"/><link data-vue-tag="true" rel="icon" type="image/png" sizes="96x96" href="/assets/static/favicon.b9532cc.9bb7ffa.png"/><link data-vue-tag="true" rel="apple-touch-icon" type="image/png" sizes="76x76" href="/assets/static/favicon.f22e9f3.9bb7ffa.png"/><link data-vue-tag="true" rel="apple-touch-icon" type="image/png" sizes="152x152" href="/assets/static/favicon.62d22cb.9bb7ffa.png"/><link data-vue-tag="true" rel="apple-touch-icon" type="image/png" sizes="120x120" href="/assets/static/favicon.1539b60.9bb7ffa.png"/><link data-vue-tag="true" rel="apple-touch-icon" type="image/png" sizes="167x167" href="/assets/static/favicon.dc0cdc5.9bb7ffa.png"/><link data-vue-tag="true" rel="apple-touch-icon" type="image/png" sizes="180x180" href="/assets/static/favicon.7b22250.9bb7ffa.png"/><noscript data-vue-tag="true" ><style>.g-image--loading{display:none;}</style></noscript><link rel="preload" href="/assets/css/styles.a78cf7ad.css" as="style"><link rel="preload" href="/assets/js/app.dd256357.js" as="script"><link rel="preload" href="/assets/css/3.styles.c0970463.css" as="style"><link rel="preload" href="/assets/js/component--post.90b32041.js" as="script"><link rel="prefetch" href="/assets/js/component--404.70462a17.js"><link rel="prefetch" href="/assets/js/component--home.71b8c4f3.js"><link rel="prefetch" href="/assets/js/component--project.4dd08822.js"><link rel="prefetch" href="/assets/js/component--tag.494e6883.js"><link rel="prefetch" href="/assets/js/page-query.53b9f8ef.js"><link rel="stylesheet" href="/assets/css/styles.a78cf7ad.css"><link rel="stylesheet" href="/assets/css/3.styles.c0970463.css">
+  </head>
+  <body data-vue-tag="">
+    <script>
+      // Add dark / light detection that runs before Vue.js load. Borrowed from overreacted.io
+      (function() {
+        window.__onThemeChange = function() {};
+        function setTheme(newTheme) {
+          window.__theme = newTheme;
+          preferredTheme = newTheme;
+          document.body.setAttribute('data-theme', newTheme);
+          window.__onThemeChange(newTheme);
+        }
+
+        var preferredTheme;
+        try {
+          preferredTheme = localStorage.getItem('theme');
+        } catch (err) { }
+
+        window.__setPreferredTheme = function(newTheme) {
+          setTheme(newTheme);
+          try {
+            localStorage.setItem('theme', newTheme);
+          } catch (err) {}
+        }
+
+        var darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        darkQuery.addListener(function(e) {
+          window.__setPreferredTheme(e.matches ? 'dark' : 'light')
+        });
+
+        setTheme(preferredTheme || (darkQuery.matches ? 'dark' : 'light'));
+      })();
+    </script>
+
+    <div id="app" data-server-rendered="true"><header class="header"><div class="header__left"><a href="/" class="logo active"><span class="logo__text">
+    ← Mo
+  </span></a></div><div class="header__right"><a href="/project" style="text-decoration:none;margin-right:40px;">Project</a><button role="button" aria-label="Toggle dark/light" class="toggle-theme"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></button></div></header><main class="main"><div class="post-title"><h1 class="post-title__text">
+      Arch Linux Install
+    </h1><div class="post-meta">
+   Posted 9. April 2019.
+   <strong>3 min read.</strong></div></div><div class="post content-box"><div class="post__header"><!----></div><div class="post__content"><h1 id="arch-linux-install"><a href="#arch-linux-install" aria-hidden="true"><span class="icon icon-link"></span></a>Arch Linux Install</h1>
+<h2 id="warning"><a href="#warning" aria-hidden="true"><span class="icon icon-link"></span></a>Warning</h2>
+<p>Copy and pasted from various sources. Use at your own risk etc.</p>
+<h2 id="prepare-the-hard-disk"><a href="#prepare-the-hard-disk" aria-hidden="true"><span class="icon icon-link"></span></a>Prepare the Hard disk</h2>
+<p>Boot <code class="language-text">gparted</code> from an usb-stick and configure your disk as follows:</p>
+<ol>
+<li>Set your partition table to MBR</li>
+<li>Create the fist partition (later used as <code class="language-text">/boot</code>): 200 MB, set the bootable flag, filesystem: ext3</li>
+<li>Create the second partition (later used with LVM, containing <code class="language-text">/</code>, <code class="language-text">/swap</code> and <code class="language-text">/home</code>): use the remaining space, leave it unformatted, set the LVM flag</li>
+</ol>
+<p>For more information on partitioning have a look at the Arch Linux wiki. If you don’t want to use <code class="language-text">gparted</code> you can just boot the Arch Linux Iso and use <code class="language-text">parted</code> or <code class="language-text">fdisk</code>. </p>
+<p>It’s also possible to use GPT instead of MBR you will need a third partition with about 2MB, but I won’t describe this here – just come back when you figured it out. Using a UEFI setup you also have to search for an other source of information ;)</p>
+<h2 id="boot-arch-linux-iso-from-usb-stick"><a href="#boot-arch-linux-iso-from-usb-stick" aria-hidden="true"><span class="icon icon-link"></span></a>Boot Arch Linux Iso from usb-stick</h2>
+<p>Search for your keyboard layout and activate it:</p>
+<pre class="language-text">loadkeys de-latin1-nodeadkeys.map.gz</pre>
+<p>Establish WiFi-connection if you don’t have wired access to the Internet:</p>
+<pre class="language-text">wifi-menu</pre>
+<h2 id="encrypt-partition-configure-lvm"><a href="#encrypt-partition-configure-lvm" aria-hidden="true"><span class="icon icon-link"></span></a>Encrypt partition, configure LVM</h2>
+<p>Load the kernel module for encryption:</p>
+<pre class="language-text">modprobe dm-crypt</pre>
+<p>Encrypt the big partition (sda2) with AES, 256 bit keylength (XTS splits the keylength). Have fun with the man and faq.</p>
+<pre class="language-text">cryptsetup -c aes-xts-plain64 -y -s 512 luksFormat /dev/sda2</pre>
+<p>And open it, so it will be in <code class="language-text">/dev/mapper/lvm</code>:</p>
+<pre class="language-text">cryptsetup luksOpen /dev/sda2 lvm</pre>
+<p>Create a physical volume, volume group, logical volumes (details):</p>
+<pre class="language-text">pvcreate /dev/mapper/lvm
+vgcreate main /dev/mapper/lvm
+lvcreate -L 20GB -n root main
+lvcreate -L 8GB -n swap main
+lvcreate -l 100%FREE -n home main</pre>
+<p>Now we need a filesystem on them:</p>
+<pre class="language-text">mkswap /dev/mapper/main-swap
+mkfs.ext4 /dev/mapper/main-root
+mkfs.ext4 /dev/mapper/main-home</pre>
+<h2 id="step-4-mount-volumes-install-arch-linux"><a href="#step-4-mount-volumes-install-arch-linux" aria-hidden="true"><span class="icon icon-link"></span></a>Step 4: Mount volumes, install Arch Linux</h2>
+<p>Mount the volumes into the running livesystem:</p>
+<pre class="language-text">mount /dev/mapper/main-root /mnt
+mkdir /mnt/boot
+mount /dev/sda1 /mnt/boot
+mkdir /mnt/home
+mount /dev/mapper/main-home /mnt/home</pre>
+<p>Install the base and base-devel packets to <code class="language-text">/mnt</code> (Internet-connection required):</p>
+<pre class="language-text">pacstrap /mnt base base-devel</pre>
+<p>Install GRUB2 to /mnt (part 1):</p>
+<pre class="language-text">pacstrap /mnt grub-bios</pre>
+<p>Generate fstab:</p>
+<pre class="language-text">genfstab -p -U /mnt &gt; /mnt/etc/fstab</pre>
+<h2 id="chroot-and-configure-the-system"><a href="#chroot-and-configure-the-system" aria-hidden="true"><span class="icon icon-link"></span></a>chroot and configure the system</h2>
+<p>Enter the chroot:</p>
+<pre class="language-text">arch-chroot /mnt</pre>
+<p>delete the <code class="language-text">#</code> in front of your language of choice (e.g. <code class="language-text">de_DE.UTF-8 UTF-8</code>) in locale.gen and generate the locale:</p>
+<pre class="language-text">vi /etc/locale.gen
+locale-gen
+echo LANG=de_DE.UTF-8 &gt; /etc/locale.conf
+export LANG=de_DE.UTF-8</pre>
+<p>Generate /etc/vconsole.conf with the following 3 lines to bind your keys correctly:</p>
+<pre class="language-text">KEYMAP=&quot;de-latin1-nodeadkeys&quot;
+FONT=Lat2-Terminus16
+FONT_MAP=</pre>
+<p>Create a symbolic link /etc/localtime to your zone file <code class="language-text">/usr/share/zoneinfo/&lt;Zone&gt;/&lt;SubZone&gt;</code>:</p>
+<pre class="language-text">ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime</pre>
+<p>Define your hostename:</p>
+<pre class="language-text">echo archserv &gt; /etc/hostname
+systemctl enable lvm.service</pre>
+<p>Edit /etc/mkinitcpio.conf: Put <code class="language-text">keymap</code>, <code class="language-text">encrypt</code> and <code class="language-text">lvm2</code> (in that order!) before <code class="language-text">filesystems</code> in the HOOKS array.</p>
+<p>Regenerate the ramdisk:</p>
+<pre class="language-text">mkinitcpio -p linux</pre>
+<p>Now install GRUB (part 2), on a device not a partition or a volume:</p>
+<pre class="language-text">grub-install /dev/sda</pre>
+<p>In /etc/default/grub edit the line <code class="language-text">GRUB_CMDLINE_LINUX=&quot;&quot;</code> to <code class="language-text">GRUB_CMDLINE_LINUX=”cryptdevice=/dev/sda2:main&quot;</code> then run:</p>
+<pre class="language-text">grub-mkconfig -o /boot/grub/grub.cfg</pre>
+<p>set your root password:</p>
+<pre class="language-text">passwd</pre>
+<p>Exit the chroot:</p>
+<pre class="language-text">exit</pre>
+<p>Unmount:</p>
+<pre class="language-text">umount /mnt/boot
+umount /mnt/home
+umount/mnt</pre>
+<p>Reboot into your new system.</p>
+<h2 id="postscript"><a href="#postscript" aria-hidden="true"><span class="icon icon-link"></span></a>Postscript</h2>
+<p>If you want to open your LVM from within an other (live-)system these commands can come in handy:</p>
+<pre class="language-text">cryptsetup luksOpen /dev/sd??
+sudo pvscan
+sudo vgscan
+sudo lvscan
+sudo vgchange -a y</pre>
+</div><div class="post__footer"><div class="post-tags"><a href="/tag/arch-linux" class="post-tags__link"><span>#</span> Arch Linux
+		</a><a href="/tag/linux" class="post-tags__link"><span>#</span> Linux
+		</a></div></div></div><div class="post-comments"></div><div class="author post-author"><!----><p class="author__intro">
+			Just Mo.
+		</p><p class="author__links"><a href="//github.com/spoofr"><svg width="30" height="30" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8C0 11.54 2.29 14.53 5.47 15.59C5.87 15.66 6.02 15.42 6.02 15.21C6.02 15.02 6.01 14.39 6.01 13.72C4 14.09 3.48 13.23 3.32 12.78C3.23 12.55 2.84 11.84 2.5 11.65C2.22 11.5 1.82 11.13 2.49 11.12C3.12 11.11 3.57 11.7 3.72 11.94C4.44 13.15 5.59 12.81 6.05 12.6C6.12 12.08 6.33 11.73 6.56 11.53C4.78 11.33 2.92 10.64 2.92 7.58C2.92 6.71 3.23 5.99 3.74 5.43C3.66 5.23 3.38 4.41 3.82 3.31C3.82 3.31 4.49 3.1 6.02 4.13C6.66 3.95 7.34 3.86 8.02 3.86C8.7 3.86 9.38 3.95 10.02 4.13C11.55 3.09 12.22 3.31 12.22 3.31C12.66 4.41 12.38 5.23 12.3 5.43C12.81 5.99 13.12 6.7 13.12 7.58C13.12 10.65 11.25 11.33 9.47 11.53C9.76 11.78 10.01 12.26 10.01 13.01C10.01 14.08 10 14.94 10 15.21C10 15.42 10.15 15.67 10.55 15.59C13.71 14.53 16 11.53 16 8C16 3.58 12.42 0 8 0Z" transform="scale(64)" fill="#1B1F23"></path></svg></a></p></div></main><footer class="footer"><span class="footer__copyright">Copyright Mo © 2019. </span><span class="footer__links">Fueled with <a href="//vuejs.org"> Vue.js </a></span></footer></div>
+    <script src="/assets/js/app.dd256357.js" defer></script><script src="/assets/js/component--post.90b32041.js" defer></script>
+  </body>
+</html>
